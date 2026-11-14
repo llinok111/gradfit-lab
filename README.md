@@ -43,6 +43,7 @@ node tools/gen-sample.mjs && node bench/verify.mjs && node bench/bench.mjs
 | 有限差分梯度（同一场景/采样） | median **62.085 ms**，n=7，p95 65.38，stddev 1.51 |
 | 加速比 | **591.04×** 墙钟；**972×** field 评估次数（1,920 vs 1,866,240，计数器实测） |
 | 6 场景 60 步拟合 | median **186.00 ms**，n=11，p95 192.87，stddev 2.80 |
+| 生成器确定性 | 连跑两次 `node tools/gen-sample.mjs`，`data/reference.json` md5 `71c30c62272c8921cc75a5906b578c53`、`data/scenes.json` md5 `faf2e55197286e62d6514d46f34e9b6c`，两次完全一致 |
 | 冷启动（进程内首次） | 6 场景解析梯度 **20.13 ms**；FD 场景 0 **31.71 ms**；6 场景拟合 **224.51 ms** |
 | 目标函数降幅 | **99.09%–99.97%**（6/6）；基线固定步长 98.82%–99.88%，6/6 较差 |
 | 平均 \|f\|（场景 0） | **0.632842 → 0.013681** |
