@@ -57,7 +57,9 @@ function setIteration(k) {
   $('meanabs').textContent = st.meanAbs[h.iter].toFixed(6);
   $('drop').textContent = (100 * relDrop(st.e0, h.energy)).toFixed(4) + ' %';
   const refE = refData.scenes[st.name].optEnergyEnd;
-  $('refe').textContent = (h.iter === 60 ? refE : st.refHistory[h.iter]).toExponential(6);
+  // Only the iteration-60 value is real node-side ground truth; intermediate
+  // iterations have no baked reference, so we never dress a browser number up as one.
+  $('refe').textContent = refE.toExponential(6);
 }
 
 function selectScene(i) {
@@ -106,10 +108,9 @@ async function boot() {
     const cmp = compareVectors(analyticGradient(mesh, field, samples), fdGradient(mesh, field, samples, h));
     const refE = refData.scenes[spec.name].optEnergyEnd;
     const same = res60.energyEnd === refE;
-    const refHistory = res60.history.map((x) => x.energy);
     return {
       scene: { mesh }, field, samples, name: spec.name, snaps, history: res60.history,
-      e0, meanAbs, refHistory, ok: same && cmp.cosine >= 0.999999,
+      e0, meanAbs, ok: same && cmp.cosine >= 0.999999,
       verdict: same
         ? `certificate OK — browser E(60)=${refE.toExponential(6)} matches node bit-for-bit; grad cosine ${cmp.cosine.toFixed(12)}, relErr ${cmp.relErr.toExponential(2)}`
         : `MISMATCH — browser E(60)=${res60.energyEnd} vs node ${refE}; grad cosine ${cmp.cosine}`,
