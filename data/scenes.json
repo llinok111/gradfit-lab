@@ -1,0 +1,98 @@
+{
+  "scenes": [
+    {
+      "name": "sphere-to-ellipsoid",
+      "source": "icosphere",
+      "subdiv": 2,
+      "order": 2,
+      "target": {
+        "kind": "ellipsoid",
+        "a": 1.55,
+        "b": 0.85,
+        "c": 0.6
+      }
+    },
+    {
+      "name": "sphere-to-superquadric",
+      "source": "icosphere",
+      "subdiv": 2,
+      "order": 2,
+      "target": {
+        "kind": "superquadric",
+        "a": 1.4,
+        "b": 0.9,
+        "c": 0.7,
+        "n": 6
+      }
+    },
+    {
+      "name": "sphere-to-capsule",
+      "source": "icosphere",
+      "subdiv": 2,
+      "order": 2,
+      "target": {
+        "kind": "capsule",
+        "p0": [
+          0,
+          0,
+          -0.9
+        ],
+        "p1": [
+          0,
+          0,
+          0.9
+        ],
+        "r": 0.55
+      }
+    },
+    {
+      "name": "torus-to-torus",
+      "source": "torus",
+      "nu": 20,
+      "nv": 12,
+      "R": 1,
+      "r": 0.32,
+      "order": 2,
+      "target": {
+        "kind": "torus",
+        "R": 0.72,
+        "r": 0.5
+      }
+    },
+    {
+      "name": "torus-to-lobe-torus",
+      "source": "torus",
+      "nu": 20,
+      "nv": 12,
+      "R": 1,
+      "r": 0.32,
+      "order": 2,
+      "target": {
+        "kind": "lobe-torus",
+        "R0": 0.95,
+        "A": 0.35,
+        "r": 0.3
+      }
+    },
+    {
+      "name": "tube-to-cone",
+      "source": "tube",
+      "nu": 24,
+      "nv": 12,
+      "h": 1.6,
+      "order": 2,
+      "target": {
+        "kind": "cone",
+        "r0": 0.9,
+        "k": -0.45
+      }
+    }
+  ],
+  "scales": [
+    0.000001,
+    0.001,
+    1,
+    1000,
+    1000000
+  ]
+}

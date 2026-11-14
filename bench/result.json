@@ -1,0 +1,161 @@
+{
+  "generatedAt": "2026-11-14T00:29:14.933Z",
+  "node": "v24.19.0",
+  "reps": 11,
+  "innerAnalyticLoop": 3,
+  "fdReps": 7,
+  "coldStartMs": {
+    "analyticAll6Scenes": 20.133,
+    "fdGradientScene0": 31.709,
+    "fitAll6Scenes": 224.509
+  },
+  "analyticAll6ScenesMs": {
+    "n": 11,
+    "min": 1.8763939999999668,
+    "median": 1.9167159999999512,
+    "p25": 1.897550333333432,
+    "p75": 1.9649670000000394,
+    "p95": 1.9887316666666568,
+    "stddev": 0.0361712461223667,
+    "mean": 1.9274649999999973,
+    "max": 1.9887316666666568
+  },
+  "analyticScene0Ms": {
+    "n": 11,
+    "min": 0.1026563333333191,
+    "median": 0.10504400000005869,
+    "p25": 0.10465333333331728,
+    "p75": 0.10786933333334521,
+    "p95": 0.12558966666665583,
+    "stddev": 0.006394918563069558,
+    "mean": 0.10760587878787714,
+    "max": 0.12558966666665583
+  },
+  "fdGradientScene0Ms": {
+    "n": 7,
+    "min": 61.4695099999999,
+    "median": 62.08501699999988,
+    "p25": 61.482262999999875,
+    "p75": 62.846888000000035,
+    "p95": 64.46934899999997,
+    "stddev": 1.0672506700427042,
+    "mean": 62.384818857142754,
+    "max": 64.46934899999997
+  },
+  "fitAll6ScenesMs": {
+    "n": 11,
+    "min": 179.50047399999994,
+    "median": 186.00374900000043,
+    "p25": 184.12848199999996,
+    "p75": 187.31730700000026,
+    "p95": 192.57699500000012,
+    "stddev": 3.535680627423347,
+    "mean": 185.58857045454553,
+    "max": 192.57699500000012
+  },
+  "speedup": {
+    "fdOverAnalyticScene0": 591.04,
+    "note": "same scene 0, same samples: finite-difference gradient vs analytic gradient"
+  },
+  "detail": {
+    "certifiedComponents": 3762,
+    "hRel": 0.000001,
+    "perScene": [
+      {
+        "name": "sphere-to-ellipsoid",
+        "vertices": 162,
+        "faces": 320,
+        "samples": 1920,
+        "gradDim": 486,
+        "gradCosine": 0.9999999999999999,
+        "gradRelErr": 1.0701984206225515e-9,
+        "energy0": 0.6267175878809692,
+        "energyEnd": 0.0004101482117795833,
+        "relDropOurs": 0.9993455613505816,
+        "relDropNaive": 0.9984584707503149,
+        "meanAbs0": 0.6328420228751838,
+        "meanAbs1": 0.013680557188859575
+      },
+      {
+        "name": "sphere-to-superquadric",
+        "vertices": 162,
+        "faces": 320,
+        "samples": 1920,
+        "gradDim": 486,
+        "gradCosine": 1.000000000000001,
+        "gradRelErr": 2.808500744074072e-10,
+        "energy0": 3.580460545763736,
+        "energyEnd": 0.006554392637813225,
+        "relDropOurs": 0.9981693995635371,
+        "relDropNaive": 0.9975359473317638,
+        "meanAbs0": 1.1785922338282881,
+        "meanAbs1": 0.05009444822602032
+      },
+      {
+        "name": "sphere-to-capsule",
+        "vertices": 162,
+        "faces": 320,
+        "samples": 1920,
+        "gradDim": 486,
+        "gradCosine": 1.0000000000000004,
+        "gradRelErr": 1.3316401184564343e-9,
+        "energy0": 0.16154704145712584,
+        "energyEnd": 0.00020363085171433334,
+        "relDropOurs": 0.9987394950110035,
+        "relDropNaive": 0.9983204415481276,
+        "meanAbs0": 0.3682034587640072,
+        "meanAbs1": 0.012192591988862578
+      },
+      {
+        "name": "torus-to-torus",
+        "vertices": 240,
+        "faces": 480,
+        "samples": 2880,
+        "gradDim": 720,
+        "gradCosine": 0.9999999999999996,
+        "gradRelErr": 1.945409209445299e-9,
+        "energy0": 0.020664018095456177,
+        "energyEnd": 0.00018864947855514743,
+        "relDropOurs": 0.9908706294350067,
+        "relDropNaive": 0.9881782397775107,
+        "meanAbs0": 0.12126302246648049,
+        "meanAbs1": 0.011087937124970908
+      },
+      {
+        "name": "torus-to-lobe-torus",
+        "vertices": 240,
+        "faces": 480,
+        "samples": 2880,
+        "gradDim": 720,
+        "gradCosine": 0.9999999999999998,
+        "gradRelErr": 9.461620464669563e-10,
+        "energy0": 0.020349412898872207,
+        "energyEnd": 0.00007044880581932427,
+        "relDropOurs": 0.996538042342085,
+        "relDropNaive": 0.9956422275176392,
+        "meanAbs0": 0.10327215192710207,
+        "meanAbs1": 0.004928544022157008
+      },
+      {
+        "name": "tube-to-cone",
+        "vertices": 288,
+        "faces": 528,
+        "samples": 3168,
+        "gradDim": 864,
+        "gradCosine": 1.0000000000000004,
+        "gradRelErr": 2.1471841180614714e-9,
+        "energy0": 0.053011079017280006,
+        "energyEnd": 0.000014086893609373142,
+        "relDropOurs": 0.9997342651032479,
+        "relDropNaive": 0.9988292556513994,
+        "meanAbs0": 0.19329127737680407,
+        "meanAbs1": 0.0034655369206742664
+      }
+    ]
+  },
+  "notes": [
+    "coldStartMs is the first execution of that workload in a fresh process, before warmup.",
+    "median is the order statistic (mean of the two middle samples when n is even); p25/p75/p95 are order statistics.",
+    "FD step h = hRel * bbox diagonal, so timings and certificates are scale relative."
+  ]
+}
