@@ -38,6 +38,32 @@ for (const sc of scenes) {
     `dim=${c.dim} cosine=${c.cosine.toFixed(12)} relErr=${c.relErr.toExponential(3)} maxAbsDiff=${c.maxAbsDiff.toExponential(3)}`);
 }
 
+console.log('== 1b. structural reachability: can the certificate even see every vertex? ==');
+{
+  let invisible = 0, zeroComps = 0, totalComps = 0, minAbs = Infinity;
+  for (const sc of scenes) {
+    const samples = makeSamples(sc.mesh, sc.order);
+    const V = sc.mesh.vertices.length;
+    const wsum = new Float64Array(V);
+    for (const s of samples) for (let t = 0; t < 3; t++) wsum[s.face[t]] += s.w[t];
+    const inv = Array.from(wsum).filter((w) => !(w > 0)).length;
+    invisible += inv;
+    const g = analyticGradient(sc.mesh, sc.field, samples);
+    for (let i = 0; i < g.length; i++) {
+      totalComps++;
+      if (g[i] === 0) zeroComps++;
+      if (Math.abs(g[i]) < minAbs) minAbs = Math.abs(g[i]);
+    }
+    console.log(`  ${sc.name}: vertices=${V} weightless=${inv} exactZeroComponents=${Array.from(g).filter((v) => v === 0).length}`);
+  }
+  check('no vertex is structurally invisible to the samples', invisible === 0,
+    `weightlessVertices=${invisible} across ${scenes.length} scenes`);
+  // An exactly-zero component cannot be checked by a RELATIVE error: the gate is
+  // structurally blind there. We bound the blind set rather than pretend it is empty.
+  check('structurally blind components are a bounded minority (<=5%)', zeroComps / totalComps <= 0.05,
+    `components=${totalComps} exactZero=${zeroComps} (${(100 * zeroComps / totalComps).toFixed(2)}%) minAbsComponent=${minAbs.toExponential(3)}`);
+}
+
 console.log('== 2. analytic FIELD gradient vs finite differences of f (second oracle) ==');
 for (const sc of scenes) {
   const samples = makeSamples(sc.mesh, sc.order);

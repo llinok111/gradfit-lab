@@ -26,7 +26,7 @@ Upstream: none
 node tools/gen-sample.mjs && node bench/verify.mjs && node bench/bench.mjs
 ```
 
-`node bench/verify.mjs` 打印每个场景的实测余弦/相对误差，全过退出码 0（本机实测 **28 passed / 0 failed**，exit 0，11.8 s）。
+`node bench/verify.mjs` 打印每个场景的实测余弦/相对误差，全过退出码 0（本机实测 **30 passed / 0 failed**，exit 0，约 11 s）。
 浏览器：`python3 -m http.server 4173` 后打开 `http://localhost:4173/`（three.js 用 importmap 固定版本 `0.170.0`）。
 
 ## 证据（全部来自 `bench/result.json` 与本机真实运行）
@@ -37,6 +37,7 @@ node tools/gen-sample.mjs && node bench/verify.mjs && node bench/bench.mjs
 | 主扫描梯度分量 | **3,762** 个（cosine 全部 1.000000000000，最大相对误差 **2.15e-9**） |
 | 尺度扫描 | 6 场景 × 5 尺度（1e-6/1e-3/1/1e3/1e6）= **30 行 / 18,810 分量**，最差 cosine **1.000000000000**，**最差相对误差 1.594e-9**，**能量降幅漂移 1.136e-16** |
 | 合计受证分量 | **22,572** |
+| 结构可达性 | 0 个顶点对采样"不可见"（weightless=0）；**55 / 3,762 个分量恰为 0**（1.46%），相对误差在这 55 个上**结构上测不到**，已如实列为盲区 |
 | 变异自测 | 8 个变异梯度 **8/8 被抓**（全局 ×1.01、单顶点 +1%、交换 x/y、清零一个分量、单顶点反号、丢重心权重、索引错位、全零） |
 | 解析梯度（场景 0） | median **0.1050 ms**，n=11，p25 0.1027 / p95 0.1844，stddev 0.0276（RSD 6.1%） |
 | 有限差分梯度（同一场景/采样） | median **62.085 ms**，n=7，p95 65.38，stddev 1.51 |
@@ -84,6 +85,10 @@ node -e "import('./src/core.mjs').then(m=>console.log(Object.keys(m).length+' ex
 - **有效尺度**：1e-6 … 1e6 实测通过（最差相对误差 1.594e-9，漂移 1.136e-16）。该范围外未验证。
 - **证书的分辨力上限（已实测披露）**：单个分量 1e-13 相对扰动只产生 1.07e-9 的 relErr，低于 1e-5 门槛，
   **证书看不见**。敏感度下限由 `relErr ≤ 1e-5` 决定，不是「能查一切」。
+- **结构性盲区（已量化）**：3,762 个受证分量里有 **55 个恰为 0**（1.46%，来自对称轴上的场梯度分量）。
+  相对误差对这些分量天然免疫，所以断言不是「全部受证」，而是「盲区 ≤5%」并把数字打出来。
+  0 个顶点对采样不可见（weightless = 0），即盲区只来自对称性，不来自采样覆盖。
+  绝对误差同理：`relErr` 用 FD 范数归一，绝对量级大的场景里小分量的偏差会被稀释——所以另给了 `maxAbsDiff`。
 - **NaN 不会静默通过**：`order=0` 会让重心权重变成 `NaN`（除以 0），本轮真的踩到过——当时 30 行尺度扫描
   全部是 NaN，却因 `NaN < x` 恒为 false 而"通过"。现在 `makeSamples` 强制 order ≥ 1，且 `compareVectors`
   遇到非有限分量直接返回 `cosine=-1 / relErr=Infinity`。这条写在这里，是因为它差点变成一次假证书。
